@@ -17,9 +17,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/session', routes.session);
-app.use('/users', routes.user);
-app.use('/messages', routes.message);
+app.use('/', routes.main);
 
 app.listen(process.env.PORT, () =>
   console.log(`Example app listening on port ${process.env.PORT}`),
