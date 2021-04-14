@@ -1,5 +1,7 @@
 import main from './main';
+import posts from './posts';
 
 export default {
-  main
+  main,
+  posts
 };
