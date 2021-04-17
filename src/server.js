@@ -33,3 +33,5 @@ app.listen(process.env.PORT, () =>
 );
 
 require('./controllers/posts.js')(app);
+
+module.exports = app;
