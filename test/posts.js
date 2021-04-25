@@ -15,15 +15,6 @@ chai.use(chaiHttp);
 describe('Posts', function () {
   const agent = chai.request.agent(server);
 
-  const newUser = {
-    username: 'temp-user',
-    password: 'test'
-  };
-  agent.post('/sign-up')
-    .set("content-type", "application/x-www-form-urlencoded")
-    .send(newUser).then()
-
-  // Post that we'll use for testing purposes
   const newPost = {
     title: 'post title',
     url: 'https://www.google.com',
@@ -32,6 +23,23 @@ describe('Posts', function () {
     author: User.findOne({ 'useername': 'temp-user' })._id
   };
 
+  const newUser = {
+    username: 'temp-user',
+    password: 'test'
+  };
+
+  before(function (done) {
+    agent
+      .post('/sign-up')
+      .set("content-type", "application/x-www-form-urlencoded")
+      .send(newUser)
+      .then(function (res) {
+        done();
+      })
+      .catch(function (err) {
+        done(err);
+      });
+  });
 
 
   it('Should create with valid attributes at POST /posts/new', function (done) {
@@ -68,18 +76,24 @@ describe('Posts', function () {
   });
 
   after(function () {
-    Post.findOneAndDelete(newPost, function (err, docs) {
-      if (err) {
-        console.log(err)
-      }
-    });
+    after(function (done) {
+      Post.findOneAndDelete(newPost)
+        .then(function (res) {
+          agent.close()
 
-    User.findOneAndDelete(newUser, function (err, docs) {
-      if (err) {
-        console.log(err)
-      }
+          User.findOneAndDelete({
+            username: newUser.username
+          })
+            .then(function (res) {
+              done()
+            })
+            .catch(function (err) {
+              done(err);
+            });
+        })
+        .catch(function (err) {
+          done(err);
+        });
     });
-
-    agent.close()
   });
 });
