@@ -79,5 +79,7 @@ describe('Posts', function () {
         console.log(err)
       }
     });
+
+    agent.close()
   });
 });
