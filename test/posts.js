@@ -2,6 +2,7 @@ import app from '../src/server'
 import chai from "chai"
 import chaiHttp from "chai-http"
 import 'chai/register-expect'
+import User from "../src/models/user"
 
 // Import the Post model from our models folder so we
 // we can use it in our tests.
@@ -13,12 +14,24 @@ chai.use(chaiHttp);
 
 describe('Posts', function () {
   const agent = chai.request.agent(server);
+
+  const newUser = {
+    username: 'temp-user',
+    password: 'test'
+  };
+  agent.post('/sign-up')
+    .set("content-type", "application/x-www-form-urlencoded")
+    .send(newUser).then()
+
   // Post that we'll use for testing purposes
   const newPost = {
     title: 'post title',
     url: 'https://www.google.com',
-    summary: 'post summary'
+    summary: 'post summary',
+    subreddit: 'test',
+    author: User.findOne({ 'useername': 'temp-user' })._id
   };
+
 
 
   it('Should create with valid attributes at POST /posts/new', function (done) {
@@ -56,6 +69,12 @@ describe('Posts', function () {
 
   after(function () {
     Post.findOneAndDelete(newPost, function (err, docs) {
+      if (err) {
+        console.log(err)
+      }
+    });
+
+    User.findOneAndDelete(newUser, function (err, docs) {
       if (err) {
         console.log(err)
       }

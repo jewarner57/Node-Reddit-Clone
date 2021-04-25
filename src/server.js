@@ -22,7 +22,6 @@ app.use(cookieParser());
 app.use(expressValidator());
 
 var checkAuth = (req, res, next) => {
-  console.log("Checking authentication");
   if (typeof req.cookies.nToken === "undefined" || req.cookies.nToken === null) {
     req.user = null;
   } else {
