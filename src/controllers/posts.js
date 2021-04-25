@@ -16,11 +16,10 @@ module.exports = (app) => {
   });
 
   app.get("/", (req, res) => {
-    var currentUser = req.user;
 
     Post.find({}).lean()
       .then(posts => {
-        res.render("posts-index", { posts, currentUser });
+        res.render("posts-index", { posts });
       })
       .catch(err => {
         console.log(err.message);

@@ -31,6 +31,9 @@ var checkAuth = (req, res, next) => {
     req.user = decodedToken.payload;
   }
 
+  // set the local currentUser val for the template
+  res.locals.currentUser = req.user;
+
   next();
 };
 app.use(checkAuth);
