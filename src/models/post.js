@@ -8,6 +8,9 @@ const PostSchema = new Schema({
   summary: { type: String, required: true },
   subreddit: { type: String, required: true },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  upVotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  downVotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  voteScore: { type: Number },
   author: { type: Schema.Types.ObjectId, ref: "User", required: true }
 }, { timestamps: { createdAt: 'created_at' } });
 
