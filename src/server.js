@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import models from './models';
 import routes from './routes';
+import path from 'path'
 var cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 require('./data/reddit-db');
@@ -45,7 +46,7 @@ app.set('view engine', 'handlebars');
 
 app.use('/', routes.main);
 app.use('/posts', routes.posts);
-
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.listen(process.env.PORT, () =>
   console.log(`App listening on port ${process.env.PORT}`),
@@ -54,5 +55,6 @@ app.listen(process.env.PORT, () =>
 require('./controllers/posts.js')(app);
 require('./controllers/comments.js')(app);
 require('./controllers/auth.js')(app);
+require('./controllers/replies.js')(app);
 
 module.exports = app;
