@@ -73,6 +73,7 @@ module.exports = (app) => {
       post.save();
 
       res.status(200);
+      res.sendStatus(200)
     });
   });
 
@@ -83,6 +84,7 @@ module.exports = (app) => {
       post.save();
 
       res.status(200);
+      res.sendStatus(200)
     });
   });
 

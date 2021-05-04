@@ -27,7 +27,7 @@ var checkAuth = (req, res, next) => {
     req.user = null;
   } else {
     var token = req.cookies.nToken;
-    var decodedToken = jwt.decode(token, { complete: true }) || {};
+    var decodedToken = jwt.verify(token, process.env.SECRET, { complete: true }) || {};
     req.user = decodedToken.payload;
   }
 
